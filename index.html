@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>MENU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|VT323" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Rajdhani" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=East+Sea+Dokdo" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script src="pb2_client.js"></script>
+</head>
+<body>
+<header>
+    <div id="hedi">
+        <div> <h1 class="blink-1">RUOKALISTA</h1>
+        </div>
+        <!--<hr noshade>-->
+        <p>*************************</p>
+
+    </div>
+
+</header>
+<main>
+
+
+    <!--<div id="profLuvutB">
+        <div><h4>ERITYISRUOKAVALIO</h4><h2 id="arvopaperit"></h2></div>
+    </div>-->
+    <div id="osoite">
+        <select id="restaurantChoose">
+            <option value="16435">Vanha Maantie</option>
+            <option value="16364">Hämeentie</option>
+            <option value="16365">Leiritie</option>
+            <option value="16363">Bulevardi</option>
+            <option value="16448">Vanha Viertotie</option>
+        </select>
+    </div>
+
+
+    <p id="ruokalista">
+
+
+        <p id="sell_history">Choose: <span class="blink-1">_</span></p>
+    </p>
+    <div id="erityisruokavalioOtsikko">
+        <div>ERITYISRUOKAVALIO<h2 id="arvopaperit"></h2></div>
+    </div>
+    <div id="erityisRuokavalio">
+
+            <label class="container">Gluteeniton
+                <input type="checkbox" checked="checked" value="#ff0000">
+                <span class="checkmark"></span>
+            </label>
+            <label class="container">Laktoositon
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+            <label class="container">Maidoton
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+            <label class="container">Vähälaktoositon
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label></div>
+
+    <div>
+        <input type="checkbox" id="laktoositon" name="ruokavalio" value="laktoositon">
+        <label for="laktoositon">Laktoositon</label>
+    </div>
+    <div>
+        <input type="checkbox" id="maidoton" name="ruokavalio" value="maidoton">
+        <label for="maidoton">Maidoton</label>
+    </div>
+    <div>
+        <input type="checkbox" id="gluteeniton" name="ruokavalio" value="gluteeniton">
+        <label for="gluteeniton">Gluteeniton</label>
+    </div>
+    <div>
+        <input type="checkbox" id="vahalaktoosinen" name="ruokavalio" value="vahalaktoosinen">
+        <label for="vahalaktoosinen">Vähälaktoosinen</label>
+    </div>
+        <p></p>
+
+    <div>
+
+    </div>
+</main>
+
+
+<script src="ds.js"></script>
+</body>
+</html>
