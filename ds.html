@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script src="pb2_client.js"></script>
+</head>
+<body>
+
+<p id="ruokalista">
+
+</p>
+
+<select id="restaurantChoose">
+    <option value="16435">Vanha Maantie</option>
+    <option value="16364">Hämeentie</option>
+    <option value="16365">Leiritie</option>
+    <option value="16363">Bulevardi</option>
+    <option value="16448">Vanha Viertotie</option>
+</select>
+
+<div>
+    <input type="checkbox" id="laktoositon" name="ruokavalio" value="laktoositon">
+    <label for="laktoositon">Laktoositon</label>
+</div>
+<div>
+    <input type="checkbox" id="maidoton" name="ruokavalio" value="maidoton">
+    <label for="maidoton">Maidoton</label>
+</div>
+<div>
+    <input type="checkbox" id="gluteeniton" name="ruokavalio" value="gluteeniton">
+    <label for="gluteeniton">Gluteeniton</label>
+</div>
+<div>
+    <input type="checkbox" id="vahalaktoosinen" name="ruokavalio" value="vahalaktoosinen">
+    <label for="vahalaktoosinen">Vähälaktoosinen</label>
+</div>
+
+<script src="ds.js"></script>
+</body>
+</html>
