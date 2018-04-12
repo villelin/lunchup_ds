@@ -8,7 +8,7 @@ let vahalaktoosinen = false;
 
 if (localStorage.getItem('lunchup_menu_G') !== null) {
   gluteeniton = localStorage.getItem('lunchup_menu_G');
-  document.querySelector('#gluteention').checked = gluteeniton;
+  document.querySelector('#gluteeniton').checked = gluteeniton;
 }
 if (localStorage.getItem('lunchup_menu_M') !== null) {
   maidoton = localStorage.getItem('lunchup_menu_M');
@@ -66,7 +66,7 @@ document.querySelector('#maidoton').addEventListener('change',
 document.querySelector('#vahalaktoosinen').addEventListener('change',
     (event) => {
       vahalaktoosinen = event.target.checked;
-      localStorage.setItem('lunchup_menu_VL', vahalaktoositon);
+      localStorage.setItem('lunchup_menu_VL', vahalaktoosinen);
       sendLunchMenuUpdate();
     });
 
