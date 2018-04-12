@@ -7,7 +7,6 @@
 
 }
 
-
 html, body {
     margin: 0;
     padding: 0;
@@ -100,16 +99,18 @@ li {
     display: inline;
 }
 
-
-
-#osoite {
-
+.osoite {
+    border: none;
     grid-row-gap: 1em;
-    padding: 1em;
+
     margin: 5px 5px 0px 5px;
     z-index: 0;
     font-size: 20px;
+    padding: 1em 1em 1em 10px;
 
+}
+select     {
+    padding-left: 5em;
 }
 
 #erityisruokavalioOtsikko {
@@ -266,13 +267,18 @@ tr:nth-child(even) {
         margin-top: 100px;
     }
 
+    p {
+        font-size: 50px;
+    }
+
     #hedi {
         font-size: 60px;
 
     }
 
-    #osoite {
+    .osoite {
         font-size: 50px;
+        padding-left: 40px;
 
     }
 
@@ -297,6 +303,7 @@ tr:nth-child(even) {
     #erityisruokavalioOtsikko {
         display: none;
     }
+
 
 }
 
