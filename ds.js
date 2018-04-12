@@ -8,19 +8,19 @@ let vahalaktoosinen = false;
 
 if (localStorage.getItem('lunchup_menu_G') !== null) {
   gluteeniton = localStorage.getItem('lunchup_menu_G');
-  document.querySelector('#gluteeniton').checked = gluteeniton;
+  //document.querySelector('#gluteeniton').checked = gluteeniton;
 }
 if (localStorage.getItem('lunchup_menu_M') !== null) {
   maidoton = localStorage.getItem('lunchup_menu_M');
-  document.querySelector('#maidoton').checked = maidoton;
+  //document.querySelector('#maidoton').checked = maidoton;
 }
 if (localStorage.getItem('lunchup_menu_L') !== null) {
   laktoositon = localStorage.getItem('lunchup_menu_L');
-  document.querySelector('#laktoositon').checked = laktoositon;
+  //document.querySelector('#laktoositon').checked = laktoositon;
 }
 if (localStorage.getItem('lunchup_menu_VL') !== null) {
   vahalaktoosinen = localStorage.getItem('lunchup_menu_VL');
-  document.querySelector('#vahalaktoosinen').checked = vahalaktoosinen;
+  //document.querySelector('#vahalaktoosinen').checked = vahalaktoosinen;
 }
 
 const sendLunchMenuUpdate = () => {
