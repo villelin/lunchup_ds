@@ -12,7 +12,7 @@ const setLanguage = (lang) => {
   }
 };
 
-setLanguage('en');
+setLanguage('fi');
 
 
 let restaurantChoice = 16435;
@@ -229,15 +229,34 @@ const processFoodItems = (items, filters) => {
 };
 
 
-const days = [
-  'Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai',
-  'Perjantai', 'Lauantai'];
+const ravintolaData = {
+  '16435': {
+    lounasStart: 630,
+    lounasEnd: 870,
+  },
+  '16364': {
+    lounasStart: 630,
+    lounasEnd: 780,
+  },
+  '16365': {
+    lounasStart: 630,
+    lounasEnd: 870,
+  },
+  '16363': {
+    lounasStart: 630,
+    lounasEnd: 840,
+  },
+  '16448': {
+    lounasStart: 630,
+    lounasEnd: 840,
+  },
+};
+
 
 const getLunchMenu = (id, filters) => {
   const apiUrl = 'https://www.sodexo.fi/ruokalistat/output/daily_json';
 
   const d = new Date();
-  const weekday = d.getDay();
 
   const year = d.getFullYear();
   const month = formatNumber(d.getMonth() + 1);
@@ -254,7 +273,37 @@ const getLunchMenu = (id, filters) => {
 
             let html = '';
 
-            html +=`<h1 id="pvm">${days[weekday]} ${day}.${month}.${year}</h1>`;
+            let ravintola = ravintolaData[`${id}`];
+
+            let dateOptions = {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            };
+
+            let dateString;
+            if (menuLang === 'fi') {
+              dateString = d.toLocaleDateString('fi-FI', dateOptions);
+            } else if (menuLang === 'en') {
+              dateString = d.toLocaleDateString('en-EN', dateOptions);
+            }
+
+            html += `<h1 id="pvm">${dateString}</h1>`;
+
+            if (ravintola !== undefined) {
+              const currentTime = getCurrentTime();
+              const minutes = (parseInt(currentTime.hours) * 60) +
+                  parseInt(currentTime.minutes);
+
+              if (minutes >= ravintola.lounasStart &&
+                  minutes <= ravintola.lounasEnd) {
+                html += `<p>Lounasta tarjolla</p>`;
+              } else {
+                html += `<p>Lounasta EI OO TARJOLLA</p>`;
+              }
+            }
+
             html +=`<div class="grid-container">`;
 
             const results = processFoodItems(data.courses, filters);
