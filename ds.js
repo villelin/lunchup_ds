@@ -289,7 +289,13 @@ const getLunchMenu = (id, filters) => {
               dateString = d.toLocaleDateString('en-EN', dateOptions);
             }
 
-            html += `<h1 id="pvm">${dateString}</h1>`;
+            let mainosBanneri = '';
+
+            mainosBanneri += `${dateString}`;
+
+            for (let i=0; i < 20; i++) {
+              mainosBanneri += '&nbsp';
+            }
 
             if (ravintola !== undefined) {
               const currentTime = getCurrentTime();
@@ -298,11 +304,21 @@ const getLunchMenu = (id, filters) => {
 
               if (minutes >= ravintola.lounasStart &&
                   minutes <= ravintola.lounasEnd) {
-                html += `<p>Lounasta tarjolla</p>`;
+                mainosBanneri += `LOUNASTA TARJOLLA`;
               } else {
-                html += `<p>Lounasta EI OO TARJOLLA</p>`;
+                mainosBanneri += `LOUNASTA EI  TARJOLLA`;
               }
+
+              let startHour = parseInt(ravintola.lounasStart / 60);
+              let startMin = parseInt(ravintola.lounasStart % 60);
+              let endHour = parseInt(ravintola.lounasEnd / 60);
+              let endMin = parseInt(ravintola.lounasEnd % 60);
+
+              mainosBanneri += ` (LOUNASAJAT ${startHour}:${startMin}-
+              ${endHour}:${endMin})`;
             }
+
+            document.querySelector('#mainosbanneri').innerHTML = mainosBanneri;
 
             html +=`<div class="grid-container">`;
 
