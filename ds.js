@@ -1,5 +1,20 @@
 const pb2 = new PB2('https://pb2-2018.jelastic.metropolia.fi/', 'lunchup');
 
+let menuLang = 'fi';
+
+const setLanguage = (lang) => {
+  menuLang = lang;
+
+  if (lang === 'fi') {
+    // muuta suomenkieliset elementit
+  } else if (lang === 'en') {
+    // muuta englanninkieliset elementit
+  }
+};
+
+setLanguage('en');
+
+
 let restaurantChoice = 16435;
 let gluteeniton = false;
 let maidoton = false;
@@ -7,20 +22,24 @@ let laktoositon = false;
 let vahalaktoosinen = false;
 
 if (localStorage.getItem('lunchup_menu_G') !== null) {
-  gluteeniton = localStorage.getItem('lunchup_menu_G');
-  //document.querySelector('#gluteeniton').checked = gluteeniton;
+  let glute = JSON.parse(localStorage.getItem('lunchup_menu_G'));
+  gluteeniton = glute.value;
+  document.querySelector('#gluteeniton').checked = gluteeniton;
 }
 if (localStorage.getItem('lunchup_menu_M') !== null) {
-  maidoton = localStorage.getItem('lunchup_menu_M');
-  //document.querySelector('#maidoton').checked = maidoton;
+  let maido = JSON.parse(localStorage.getItem('lunchup_menu_M'));
+  maidoton = maido.value;
+  document.querySelector('#maidoton').checked = maidoton;
 }
 if (localStorage.getItem('lunchup_menu_L') !== null) {
-  laktoositon = localStorage.getItem('lunchup_menu_L');
-  //document.querySelector('#laktoositon').checked = laktoositon;
+  let lakto = JSON.parse(localStorage.getItem('lunchup_menu_L'));
+  laktoositon = lakto.value;
+  document.querySelector('#laktoositon').checked = laktoositon;
 }
 if (localStorage.getItem('lunchup_menu_VL') !== null) {
-  vahalaktoosinen = localStorage.getItem('lunchup_menu_VL');
-  //document.querySelector('#vahalaktoosinen').checked = vahalaktoosinen;
+  let vahalakt = JSON.parse(localStorage.getItem('lunchup_menu_VL'));
+  vahalaktoosinen = vahalakt.value;
+  document.querySelector('#vahalaktoosinen').checked = vahalaktoosinen;
 }
 
 const sendLunchMenuUpdate = () => {
@@ -45,28 +64,32 @@ document.querySelector('#restaurantChoose').
 document.querySelector('#laktoositon').addEventListener('change',
     (event) => {
       laktoositon = event.target.checked;
-      localStorage.setItem('lunchup_menu_L', laktoositon);
+      let lakto = {value: laktoositon};
+      localStorage.setItem('lunchup_menu_L', JSON.stringify(lakto));
       sendLunchMenuUpdate();
     });
 
 document.querySelector('#gluteeniton').addEventListener('change',
     (event) => {
       gluteeniton = event.target.checked;
-      localStorage.setItem('lunchup_menu_G', gluteeniton);
+      let glute = {value: gluteeniton};
+      localStorage.setItem('lunchup_menu_G', JSON.stringify(glute));
       sendLunchMenuUpdate();
     });
 
 document.querySelector('#maidoton').addEventListener('change',
     (event) => {
       maidoton = event.target.checked;
-      localStorage.setItem('lunchup_menu_M', maidoton);
+      let maido = {value: maidoton};
+      localStorage.setItem('lunchup_menu_M', JSON.stringify(maido));
       sendLunchMenuUpdate();
     });
 
 document.querySelector('#vahalaktoosinen').addEventListener('change',
     (event) => {
       vahalaktoosinen = event.target.checked;
-      localStorage.setItem('lunchup_menu_VL', vahalaktoosinen);
+      let vahalakt = {value: vahalaktoosinen};
+      localStorage.setItem('lunchup_menu_VL', JSON.stringify(vahalakt));
       sendLunchMenuUpdate();
     });
 
@@ -95,6 +118,117 @@ const formatNumber = (number) => {
   return (number < 10 ? '0' : '') + number;
 };
 
+
+const getCurrentTime = () => {
+  const d = new Date();
+  const hours = formatNumber(d.getHours());
+  const minutes = formatNumber(d.getMinutes());
+  const seconds = formatNumber(d.getSeconds());
+
+  return {hours: hours, minutes: minutes, seconds: seconds};
+};
+
+
+const processFoodItems = (items, filters) => {
+  let results = [];
+
+  let counter = 1;
+
+  items.forEach((item) => {
+    let foodTitle;
+    if (menuLang === 'fi') {
+      foodTitle = item.title_fi;
+    } else if (menuLang == 'en') {
+      foodTitle = item.title_en;
+    }
+
+    let foodPrice = '';
+    let foodProperties = item.properties;
+
+    // formatoi hinta
+    const priceRegex = /[0-9],[0-9][0-9]/;
+    const prices = priceRegex.exec(item.price);
+    console.log(prices);
+    console.log(prices.length);
+    prices.forEach((price, index) => {
+      foodPrice += `${price}&euro;`;
+      console.log(price);
+      if (index < prices.length-1) {
+        foodPrice += ' / ';
+      }
+    });
+
+    let props = [];
+
+    // parsi ruokavaliot jos niitä on
+    if (foodProperties !== undefined) {
+      foodProperties = foodProperties.toLowerCase();
+      props = foodProperties.split(',');
+      console.log(props);
+    }
+
+    // filtteröi ruokavaliot jos niitä on
+    let show;
+    if (filters.length === 0) {
+      show = true;
+    } else {
+      show = false;
+
+      filters.forEach((filter) => {
+        switch (filter) {
+          case 'g': {
+            props.forEach((prop) => {
+              if (prop == 'g') {
+                show = true;
+              }
+            });
+            break;
+          }
+          case 'm': {
+            props.forEach((prop) => {
+              if (prop == 'm') {
+                show = true;
+              }
+            });
+            break;
+          }
+          case 'l': {
+            props.forEach((prop) => {
+              if (prop == 'l') {
+                show = true;
+              }
+            });
+            break;
+          }
+          case 'vl': {
+            props.forEach((prop) => {
+              if (prop == 'vl') {
+                show = true;
+              }
+            });
+            break;
+          }
+        }
+      });
+    }
+
+    if (show) {
+      let entry = {
+        counter: counter,
+        title: foodTitle,
+        properties: props,
+        price: foodPrice,
+      };
+
+      results.push(entry);
+      counter++;
+    }
+  });
+
+  return results;
+};
+
+
 const days = [
   'Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai',
   'Perjantai', 'Lauantai'];
@@ -120,103 +254,23 @@ const getLunchMenu = (id, filters) => {
 
             let html = '';
 
-            html += `<h1 id="pvm">${days[weekday]} ${day}.${month}.${year}</h1>`;
+            html +=`<h1 id="pvm">${days[weekday]} ${day}.${month}.${year}</h1>`;
+            html +=`<div class="grid-container">`;
 
+            const results = processFoodItems(data.courses, filters);
 
-            html += `<div class="grid-container">`;
+            results.forEach((result) => {
+              html += `<div class="grid-item">${result.counter}.</div>`;
+              html += `<div class="grid-item">${result.title}</div>`;
+              html += `<div class="grid-item">${result.price}</div>`;
 
-            let counter = 1;
-
-            const courses = data.courses;
-            courses.forEach((course) => {
-              const foodTitle = course.title_fi;
-              let foodPrice = '';
-              let foodProperties = course.properties;
-
-
-
-
-              const priceRegex = /[0-9],[0-9][0-9]/;
-              const prices = priceRegex.exec(course.price);
-              console.log(prices);
-              console.log(prices.length);
-              prices.forEach((price, index) => {
-                foodPrice += `${price}&euro;`;
-                console.log(price);
-                if (index < prices.length-1) {
-                  foodPrice += ' / ';
-                }
+              html += `<div class="grid-item">`;
+              html += `<div class="properties">`;
+              result.properties.forEach((prop) => {
+                html += `<div>${prop.toUpperCase()}</div>`;
               });
-
-
-              let props = [];
-
-              // parsi ruokavaliot jos niitä on
-              if (foodProperties !== undefined) {
-                foodProperties = foodProperties.toLowerCase();
-                props = foodProperties.split(',');
-                console.log(props);
-              }
-
-              let show;
-              if (filters.length === 0) {
-                show = true;
-              } else {
-                show = false;
-
-                filters.forEach((filter) => {
-                  switch (filter) {
-                    case 'g': {
-                      props.forEach((prop) => {
-                        if (prop == 'g') {
-                          show = true;
-                        }
-                      });
-                      break;
-                    }
-                    case 'm': {
-                      props.forEach((prop) => {
-                        if (prop == 'm') {
-                          show = true;
-                        }
-                      });
-                      break;
-                    }
-                    case 'l': {
-                      props.forEach((prop) => {
-                        if (prop == 'l') {
-                          show = true;
-                        }
-                      });
-                      break;
-                    }
-                    case 'vl': {
-                      props.forEach((prop) => {
-                        if (prop == 'vl') {
-                          show = true;
-                        }
-                      });
-                      break;
-                    }
-                  }
-                });
-              }
-
-              if (show) {
-                html += `<div class="grid-item">${counter}.</div>`;
-                html += `<div class="grid-item">${foodTitle}</div>`;
-                html += `<div class="grid-item">${foodPrice}</div>`;
-
-                html += `<div class="grid-item">`;
-                html += `<div class="properties">`;
-                props.forEach((prop) => {
-                  html += `<div>${prop.toUpperCase()}</div>`;
-                });
-                html += `</div>`;
-                html += `</div>`;
-
-                counter++;
-              }
+              html += `</div>`;
+              html += `</div>`;
             });
 
             html += `</div>`;
@@ -234,11 +288,8 @@ const getLunchMenu = (id, filters) => {
 getLunchMenu(16435, ['g', 'm', 'vl', 'l']);
 
 window.setInterval(() => {
-  const d = new Date();
-  const hours = formatNumber(d.getHours());
-  const minutes = formatNumber(d.getMinutes());
-  const seconds = formatNumber(d.getSeconds());
+  let time = getCurrentTime();
 
-  let kello = `${hours}:${minutes}:${seconds}`;
+  let kello = `${time.hours}:${time.minutes}:${time.seconds}`;
   document.querySelector('#kello').innerHTML = kello;
 }, 1000);
