@@ -120,8 +120,8 @@ const getLunchMenu = (id, filters) => {
 
             let html = '';
 
-            html += `<h1>${days[weekday]} ${day}.${month}.${year}</h1>`;
-            html += `<h1 id="kello"></h1>`;
+            html += `<h1 id="pvm">${days[weekday]} ${day}.${month}.${year}</h1>`;
+
 
             html += `<div class="grid-container">`;
 
@@ -141,7 +141,7 @@ const getLunchMenu = (id, filters) => {
               console.log(prices);
               console.log(prices.length);
               prices.forEach((price, index) => {
-                foodPrice += `${price} &euro;`;
+                foodPrice += `${price}&euro;`;
                 console.log(price);
                 if (index < prices.length-1) {
                   foodPrice += ' / ';
@@ -203,7 +203,7 @@ const getLunchMenu = (id, filters) => {
               }
 
               if (show) {
-                html += `<div class="grid-item">${counter}</div>`
+                html += `<div class="grid-item">${counter}.</div>`;
                 html += `<div class="grid-item">${foodTitle}</div>`;
                 html += `<div class="grid-item">${foodPrice}</div>`;
 

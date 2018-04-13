@@ -7,6 +7,14 @@
 
 }
 
+body {
+    height: 100vh;
+}
+body {
+    min-height: 100vh;
+}
+
+
 html, body {
     margin: 0;
     padding: 0;
@@ -17,7 +25,7 @@ body {
 
     font-family: 'VT323', monospace;
     /*max-width: 1170px;*/
-    max-width: 1000px;
+    max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
     overflow-y: scroll;
@@ -45,6 +53,9 @@ main {
     padding: 200px 5px 50px 5px;
 
 }
+ #tahti{
+     display: none;
+ }
 
 #hedi {
     display: grid;
@@ -103,24 +114,48 @@ li {
     border: none;
     grid-row-gap: 1em;
 
-    margin: 5px 5px 0px 5px;
+    margin: 5px 5px 0px 7px;
     z-index: 0;
     font-size: 20px;
-    padding: 1em 1em 1em 10px;
+    padding: 1em 1em 1em 0;
 
 }
 select     {
-    padding-left: 5em;
+
+}
+
+.grid-container{
+    grid-column-gap: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-row-gap: 50px;
+}
+
+.grid-item{
+
+
+}
+#kello{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 50px;
+}
+
+#pvm{
+    font-size: 50px;
+    text-align: center;
 }
 
 #erityisruokavalioOtsikko {
-
+    color: #FFB000;
     grid-row-gap: 1em;
-    padding: 1em;
+    padding: 1em 1em 1em 16px;
     margin: 5px 5px 0px 5px;
     text-align: center;
-    z-index: 0;
+    z-index: 100;
     font-size: 20px;
+    text-align: left;
 }
 
 #erityisRuokavalio {
@@ -261,10 +296,11 @@ tr:nth-child(even) {
 }
 
 /* LARGE SCREENS*/
-@media (min-width: 780px) {
+@media (min-width: 830px) {
+
 
     body {
-        margin-top: 100px;
+
     }
 
     p {
@@ -272,18 +308,22 @@ tr:nth-child(even) {
     }
 
     #hedi {
-        font-size: 60px;
+        font-size: 5vh;
+        padding: 100px 0 0 0;
 
     }
 
     .osoite {
-        font-size: 50px;
+        font-size: 2vh;
         padding-left: 40px;
+        display: none;
 
     }
 
     #ruokalista {
         font-size: 50px;
+        padding-top: 0;
+
     }
 
     td#muutos {
@@ -305,5 +345,17 @@ tr:nth-child(even) {
     }
 
 
+    .grid-item{
+        font-size: 70px;
+
+    }
+
+    #kello{
+        margin: 135px 135px 0 0;
+    }
+
+    #tahti{
+        display: block;
+    }
 }
 
