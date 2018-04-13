@@ -2,13 +2,18 @@
     box-sizing: border-box;
     margin: 0;
     font-family: 'VT323', monospace;
-    color: #FFB000;
-    background-color: black;
+    color: #000000;
+
 
 }
 
+
+
+
+
 body {
     height: 100vh;
+    background-color: transparent;
 }
 body {
     min-height: 100vh;
@@ -25,7 +30,7 @@ body {
 
     font-family: 'VT323', monospace;
     /*max-width: 1170px;*/
-    max-width: 1100px;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
     overflow-y: scroll;
@@ -39,6 +44,8 @@ header {
     top: 0;
     width: 100%;
     z-index: 05;
+
+    text-align: center;
 }
 
 hr {
@@ -58,103 +65,64 @@ main {
  }
 
 #hedi {
-    display: grid;
-    /*grid-template-columns: repeat(1, 10% 80% 10%);*/
+
     text-align: center;
     color: #FFB000;
     margin-bottom: 0px;
     padding: 1em;
+    background-color: transparent;
 
 }
 
-#navi {
-    display: grid;
-    /*grid-template-columns: repeat(4, 1fr);*/
-    text-align: center;
 
-}
-
-#navi a {
-
-    color: black;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-    cursor: pointer;
-}
-
-#navi a:hover, a:focus {
-    background: #C49F66;
-    color: black;
-    outline: 0;
-    transition: background-color 0.4s ease-out;
-}
-
-#navi a.active {
-    background-color: #C49F66;
-}
-
-ul {
-    list-style: none;
-    padding: 14px;
-    margin: 0 auto 0 auto;
-    text-align: center;
-    background-color: black;
-}
-
-ul p {
-    margin: 0 auto 0 auto;
-}
-
-li {
-    display: inline;
-}
 
 .osoite {
     border: none;
     grid-row-gap: 1em;
-
+    background: black;
     margin: 5px 5px 0px 7px;
     z-index: 0;
     font-size: 20px;
-    padding: 1em 1em 1em 0;
+    padding: 0 1em 0 0;
 
 }
-select     {
 
+#choose{
+    margin-left: 20px;
+    font-size: 3vh;
 }
 
 .grid-container{
-    grid-column-gap: 10px;
+    grid-column-gap: 2vh;
     display: grid;
     grid-template-columns: auto auto auto auto;
-    grid-row-gap: 50px;
+    grid-row-gap: 4vh;
 }
 
 .grid-item{
-
+font-size: 2vh;
 
 }
 #kello{
     position: absolute;
     top: 0;
     right: 0;
-    font-size: 50px;
+    font-size: 5vh;
+    display: block;
 }
 
 #pvm{
-    font-size: 50px;
+    font-size: 2vh;
     text-align: center;
 }
 
 #erityisruokavalioOtsikko {
     color: #FFB000;
     grid-row-gap: 1em;
-    padding: 1em 1em 1em 16px;
+    padding: 2em 1em 1em 16px;
     margin: 5px 5px 0px 5px;
-    text-align: center;
     z-index: 100;
-    font-size: 20px;
+    font-size: 3vh;
     text-align: left;
 }
 
@@ -162,9 +130,10 @@ select     {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-row-gap: 1em;
-    padding: 5em 1em 1em 1em;
+    padding: 3em 1em 1em 1em;
     margin: -3em 5px 5px 5px;
     z-index: 6;
+
 
 }
 
@@ -299,17 +268,22 @@ tr:nth-child(even) {
 @media (min-width: 830px) {
 
 
-    body {
 
+    html {
+        width:100%;
+        height: 100%;
     }
 
-    p {
-        font-size: 50px;
+    html {
+        box-shadow: inset 0 0 1000px 30px black;
+        background: #76d552;
     }
+
+
 
     #hedi {
         font-size: 5vh;
-        padding: 100px 0 0 0;
+        padding: 3vh 0 0 0;
 
     }
 
@@ -317,24 +291,13 @@ tr:nth-child(even) {
         font-size: 2vh;
         padding-left: 40px;
         display: none;
-
     }
 
     #ruokalista {
-        font-size: 50px;
         padding-top: 0;
 
     }
 
-    td#muutos {
-        display: block;
-
-    }
-
-    .muutosOtsake {
-        display: block;
-
-    }
 
     #erityisRuokavalio {
         display: none;
@@ -346,16 +309,32 @@ tr:nth-child(even) {
 
 
     .grid-item{
-        font-size: 70px;
+        font-size: 5vh;
 
     }
 
+    #choose{
+        margin-left: 20px;
+        font-size: 4vh;
+        padding-top: 4vh;
+    }
+
     #kello{
-        margin: 135px 135px 0 0;
+        margin: 4vh 5vh 0 0;
+        display: block;
     }
 
     #tahti{
         display: block;
+        font-size: 3vh;
+    }
+    #pvm{
+        font-size: 3vh;
     }
 }
 
+@media (max-width: 1066px) {
+    #kello{
+        display: none;
+    }
+}
