@@ -83,6 +83,7 @@ pb2.setReceiver((data) => {
   console.log('socket.on message received: ' + data);
   console.log(data.json.id);
 
+  // aseta uusi ravintola, jos viestissä on ravintola-ID
   if (data.json.id !== undefined) {
     let filters = [];
     if (data.json.gluteeniton) {
@@ -101,6 +102,7 @@ pb2.setReceiver((data) => {
     getLunchMenu(data.json.id, filters);
   }
 
+  // aseta uusi kieli, jos viestissä on kieli
   if (data.json.language !== undefined) {
     chooseLanguage(data.json.language);
   }
@@ -297,7 +299,7 @@ const getLunchMenu = (id, filters) => {
               let endHour = parseInt(ravintola.lounasEnd / 60);
               let endMin = parseInt(ravintola.lounasEnd % 60);
 
-              let times = `${startHour}:${startMin}-${endHour}:${endMin})`;
+              let times = `${startHour}:${startMin}-${endHour}:${endMin}`;
 
               banneriFI += ` (LOUNASAJAT ${times})`;
             }
@@ -337,6 +339,7 @@ const getLunchMenu = (id, filters) => {
       });
 };
 
+// oletusravintola: Leppävaara
 getLunchMenu(16435, ['g', 'm', 'vl', 'l']);
 
 window.setInterval(() => {
@@ -367,6 +370,7 @@ const chooseLanguage = (language) => {
   });
 }
 
+// oletuskielenä Suomi
 chooseLanguage('fi');
 
 document.querySelector('#languageChoose').
