@@ -1,19 +1,5 @@
 const pb2 = new PB2('https://pb2-2018.jelastic.metropolia.fi/', 'lunchup');
 
-let menuLang = 'fi';
-
-const setLanguage = (lang) => {
-  menuLang = lang;
-
-  if (lang === 'fi') {
-    // muuta suomenkieliset elementit
-  } else if (lang === 'en') {
-    // muuta englanninkieliset elementit
-  }
-};
-
-setLanguage('fi');
-
 
 let restaurantChoice = 16435;
 let gluteeniton = false;
@@ -97,21 +83,27 @@ pb2.setReceiver((data) => {
   console.log('socket.on message received: ' + data);
   console.log(data.json.id);
 
-  let filters = [];
-  if (data.json.gluteeniton) {
-    filters.push('g');
-  }
-  if (data.json.laktoositon) {
-    filters.push('l');
-  }
-  if (data.json.maidoton) {
-    filters.push('m');
-  }
-  if (data.json.vahalaktoosinen) {
-    filters.push('vl');
+  if (data.json.id !== undefined) {
+    let filters = [];
+    if (data.json.gluteeniton) {
+      filters.push('g');
+    }
+    if (data.json.laktoositon) {
+      filters.push('l');
+    }
+    if (data.json.maidoton) {
+      filters.push('m');
+    }
+    if (data.json.vahalaktoosinen) {
+      filters.push('vl');
+    }
+
+    getLunchMenu(data.json.id, filters);
   }
 
-  getLunchMenu(data.json.id, filters);
+  if (data.json.language !== undefined) {
+    chooseLanguage(data.json.language);
+  }
 });
 
 const formatNumber = (number) => {
@@ -135,12 +127,8 @@ const processFoodItems = (items, filters) => {
   let counter = 1;
 
   items.forEach((item) => {
-    let foodTitle;
-    if (menuLang === 'fi') {
-      foodTitle = item.title_fi;
-    } else if (menuLang == 'en') {
-      foodTitle = item.title_en;
-    }
+    let foodTitleFI = item.title_fi;
+    let foodTitleEN = item.title_en;
 
     let foodPrice = '';
     let foodProperties = item.properties;
@@ -215,7 +203,8 @@ const processFoodItems = (items, filters) => {
     if (show) {
       let entry = {
         counter: counter,
-        title: foodTitle,
+        titleFi: foodTitleFI,
+        titleEn: foodTitleEN,
         properties: props,
         price: foodPrice,
       };
@@ -279,22 +268,16 @@ const getLunchMenu = (id, filters) => {
               weekday: 'long',
               year: 'numeric',
               month: 'long',
-              day: 'numeric'
+              day: 'numeric',
             };
 
-            let dateString;
-            if (menuLang === 'fi') {
-              dateString = d.toLocaleDateString('fi-FI', dateOptions);
-            } else if (menuLang === 'en') {
-              dateString = d.toLocaleDateString('en-EN', dateOptions);
-            }
+            let dateStringFI = d.toLocaleDateString('fi-FI', dateOptions);
+            let banneriFI = '';
 
-            let mainosBanneri = '';
-
-            mainosBanneri += `${dateString}`;
+            banneriFI += `${dateStringFI}`;
 
             for (let i=0; i < 20; i++) {
-              mainosBanneri += '&nbsp';
+              banneriFI += '&nbsp';
             }
 
             if (ravintola !== undefined) {
@@ -304,9 +287,9 @@ const getLunchMenu = (id, filters) => {
 
               if (minutes >= ravintola.lounasStart &&
                   minutes <= ravintola.lounasEnd) {
-                mainosBanneri += `LOUNASTA TARJOLLA`;
+                banneriFI += `LOUNASTA TARJOLLA`;
               } else {
-                mainosBanneri += `LOUNASTA EI  TARJOLLA`;
+                banneriFI += `LOUNASTA EI  TARJOLLA`;
               }
 
               let startHour = parseInt(ravintola.lounasStart / 60);
@@ -314,11 +297,12 @@ const getLunchMenu = (id, filters) => {
               let endHour = parseInt(ravintola.lounasEnd / 60);
               let endMin = parseInt(ravintola.lounasEnd % 60);
 
-              mainosBanneri += ` (LOUNASAJAT ${startHour}:${startMin}-
-              ${endHour}:${endMin})`;
+              let times = `${startHour}:${startMin}-${endHour}:${endMin})`;
+
+              banneriFI += ` (LOUNASAJAT ${times})`;
             }
 
-            document.querySelector('#mainosbanneri').innerHTML = mainosBanneri;
+            document.querySelector('#mainosbanneriFI').innerHTML = banneriFI;
 
             html +=`<div class="grid-container">`;
 
@@ -326,7 +310,10 @@ const getLunchMenu = (id, filters) => {
 
             results.forEach((result) => {
               html += `<div class="grid-item">${result.counter}.</div>`;
-              html += `<div class="grid-item">${result.title}</div>`;
+              html += `<div class="grid-item">
+                       <span lang="fi">${result.titleFi}</span>
+                       <span lang="en">${result.titleEn}</span>
+                       </div>`;
               html += `<div class="grid-item">${result.price}</div>`;
 
               html += `<div class="grid-item">`;
@@ -358,3 +345,36 @@ window.setInterval(() => {
   let kello = `${time.hours}:${time.minutes}:${time.seconds}`;
   document.querySelector('#kello').innerHTML = kello;
 }, 1000);
+
+
+const chooseLanguage = (language) => {
+  document.querySelectorAll('*:not(html)').forEach((node) => {
+    let lang = node.getAttribute('lang');
+
+    // piilota jos elementillä on kieli-attribuutti, ja se ei täsmää
+    if (lang !== null && lang !== language) {
+      node.style.display = 'none';
+    }
+  });
+
+  document.querySelectorAll('*:not(hmtl)').forEach((node) => {
+    let lang = node.getAttribute('lang');
+
+    // näytä jos elementillä on kieli-attribuutti, ja se täsmää
+    if (lang !== null && lang === language) {
+      node.style.display = 'unset';
+    }
+  });
+}
+
+chooseLanguage('fi');
+
+document.querySelector('#languageChoose').
+    addEventListener('change', (event) => {
+      console.log(event.target.value);
+
+      const msg = {};
+      msg.language = event.target.value;
+
+      pb2.sendJson(msg);
+    });

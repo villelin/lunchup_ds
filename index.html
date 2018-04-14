@@ -17,9 +17,12 @@
 <div id="kello"></div>
 <header>
     <div id="hedi">
-        <h1 class="blink-1">RUOKALISTA</h1>
+        <h1 class="blink-1">
+            <span lang="fi">RUOKALISTA</span>
+            <span lang="en">LUNCH MENU</span>
+        </h1>
         <p  id="tahti">*************************************</p>
-        <marquee id="mainosbanneri">This text will scroll from right to left</marquee>
+        <marquee id="mainosbanneriFI">This text will scroll from right to left</marquee>
     </div>
 
 </header>
@@ -33,28 +36,51 @@
             <option value="16448">Vanha Viertotie</option>
         </select>
     </div>
+    <div>
+        <select id="languageChoose">
+            <option value="fi">Suomi</option>
+            <option value="en">English</option>
+        </select>
+    </div>
     <p id="ruokalista">
     </p>
-    <div id="choose"><p>Choose: <span class="blink-1">_</span></p></div>
+    <div id="choose">
+        <p>
+            <span lang="fi">Valitse:</span>
+            <span lang="en">Choose:</span>
+            <span class="blink-1">_</span>
+        </p>
+    </div>
 
     <div id="erityisruokavalioOtsikko">
-        <div>ERITYISRUOKAVALIO<h2 id="arvopaperit"></h2></div>
+        <div>
+            <span lang="fi">ERITYISRUOKAVALIO</span>
+            <span lang="en">SPECIAL DIETS</span>
+        </div>
     </div>
     <div id="erityisRuokavalio">
 
-        <label class="container">Gluteeniton
+        <label class="container">
+            <span lang="fi">Gluteeniton</span>
+            <span lang="en">Gluten-free</span>
             <input type="checkbox" id="gluteeniton">
             <span class="checkmark"></span>
         </label>
-        <label class="container">Laktoositon
+        <label class="container">
+            <span lang="fi">Laktoositon</span>
+            <span lang="en">Lactose-free</span>
             <input id="laktoositon" type="checkbox">
             <span class="checkmark"></span>
         </label>
-        <label class="container">Maidoton
+        <label class="container">
+            <span lang="fi">Maidoton</span>
+            <span lang="en">Milk-free</span>
             <input id="maidoton" type="checkbox">
             <span class="checkmark"></span>
         </label>
-        <label class="container">Vähälaktoositon
+        <label class="container">
+            <span lang="fi">Vähälaktoositon</span>
+            <span lang="en">Low-lactose</span>
             <input type="checkbox" id="vahalaktoosinen">
             <span class="checkmark"></span>
         </label></div>
