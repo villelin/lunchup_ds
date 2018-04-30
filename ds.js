@@ -245,7 +245,8 @@ const ravintolaData = {
 
 
 const getLunchMenu = (id, filters) => {
-  const apiUrl = 'https://www.sodexo.fi/ruokalistat/output/daily_json';
+  return new Promise((resolve, reject) => {
+  const apiUrl = 'http://guru.pörssiguru.fi/sode.php';
 
   const d = new Date();
 
@@ -254,9 +255,7 @@ const getLunchMenu = (id, filters) => {
   const day = formatNumber(d.getDate());
   const language = 'en';
 
-  const settings = {method: 'GET', mode: 'cors'};
-
-  fetch(`${apiUrl}/${id}/${year}/${month}/${day}/${language}`, settings).
+  fetch(`${apiUrl}?year=${year}&month=${month}&day=${day}&lang=${language}&id=${id}`).
       then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
@@ -332,15 +331,21 @@ const getLunchMenu = (id, filters) => {
             document.querySelector('#ruokalista').innerHTML = html;
           });
         }
+        resolve();
       }).
       catch((error) => {
         // virhe
         console.log(error);
+        reject();
       });
+  });
 };
 
 // oletusravintola: Leppävaara
-getLunchMenu(16435, ['g', 'm', 'vl', 'l']);
+getLunchMenu(16435, ['g', 'm', 'vl', 'l']).then(() => {
+// oletuskielenä Suomi
+  chooseLanguage('fi');
+});
 
 window.setInterval(() => {
   let time = getCurrentTime();
@@ -369,9 +374,6 @@ const chooseLanguage = (language) => {
     }
   });
 }
-
-// oletuskielenä Suomi
-chooseLanguage('fi');
 
 document.querySelector('#languageChoose').
     addEventListener('change', (event) => {
