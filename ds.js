@@ -320,7 +320,7 @@ const getLunchMenu = (id, filters) => {
               html += `<div class="grid-item">`;
               html += `<div class="properties">`;
               result.properties.forEach((prop) => {
-                html += `<div>${prop.toUpperCase()}</div>`;
+                html += `<span>${prop.toUpperCase()}</span>`;
               });
               html += `</div>`;
               html += `</div>`;
